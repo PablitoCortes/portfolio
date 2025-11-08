@@ -194,6 +194,8 @@ export default function Home() {
         <h2 className="text-3xl font-bold mb-8 text-center text-cyan-400">
           Projects
         </h2>
+        
+        <div className="grid md:grid-cols-3 gap-6">
         <div className="bg-gray-800 rounded-2xl p-5 hover:-translate-y-1 transition">
             <h3 className="font-semibold text-xl mb-2 text-white">
               Live Chat
@@ -226,7 +228,6 @@ export default function Home() {
               Financial tracking tool built with MERN stack and TypeScript.
             </p>
           </div>
-        <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-gray-800 rounded-2xl p-5 hover:-translate-y-1 transition">
             <h3 className="font-semibold text-xl mb-2 text-white">
               Pet Adoption
