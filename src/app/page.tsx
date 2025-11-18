@@ -2,7 +2,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowDownRight, Download } from "lucide-react";
+import { ArrowDownRight, Download, X } from "lucide-react";
 import { FaReact, FaGitAlt, FaCloud } from "react-icons/fa";
 import {
   SiNextdotjs,
@@ -11,8 +11,7 @@ import {
   SiMongodb,
   SiRedux,
 } from "react-icons/si";
-import { useRef } from "react";
-
+import { useRef, useState, useEffect } from "react";
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,6 +21,27 @@ export default function Home() {
   });
 
   const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0, 0.8]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedImage(null);
+      }
+    };
+
+    if (selectedImage) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedImage]);
 
   const handleSmoothScroll = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -190,92 +210,284 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <section id="projects" className="max-w-5xl mx-auto py-20 px-6">
-        <h2 className="text-3xl font-bold mb-8 text-center text-cyan-400">
+      <section id="projects" className="max-w-6xl mx-auto py-20 px-6">
+        <h2 className="text-3xl font-bold mb-12 text-center text-cyan-400">
           Projects
         </h2>
-        
-        <div className="grid md:grid-cols-3 gap-6">
-        <div className="bg-gray-800 rounded-2xl p-5 hover:-translate-y-1 transition">
-            <h3 className="font-semibold text-xl mb-2 text-white">
-              Live Chat
-            </h3>
-            <p className="text-gray-400 text-sm mb-4">
-              Real-time messaging app using React, Node.js, and Socket.io.
-            </p>
-            <div>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="bg-gray-800 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 group"
+          >
+            <div 
+              className="relative h-64 w-full overflow-hidden cursor-pointer"
+              onClick={() => setSelectedImage("/images/smartbudget.png")}
+            >
+              <Image
+                src="/images/smartbudget.png"
+                alt="SmartBudget Project"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent" />
+            </div>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-2xl text-white">SmartBudget</h3>
+                <span className="text-xs bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full">
+                  In Progress
+                </span>
+              </div>
+              <p className="text-gray-300 mb-4 leading-relaxed">
+                SmartBudget is a web application designed to help you make
+                smarter, more sustainable financial decisions.
+              </p>
+              <div className="mb-4">
+                <p className="text-sm text-gray-400 mb-2 font-medium">
+                  Technologies:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    React
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    TypeScript
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    MongoDB
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    Express
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    Node.js
+                  </span>
+                </div>
+              </div>
+              <div className="mb-4">
+                <p className="text-sm text-gray-400 mb-2 font-medium">
+                  Features:
+                </p>
+                <ul className="text-sm text-gray-300 space-y-1 list-disc list-inside">
+                  <li>Transaction management</li>
+                  <li>Analysis and charts</li>
+                  <li>Custom budgets</li>
+                </ul>
+              </div>
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="bg-gray-800 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 group"
+          >
+            <div 
+              className="relative h-64 w-full overflow-hidden cursor-pointer"
+              onClick={() => setSelectedImage("/images/live-chat.png")}
+            >
               <Image
                 src="/images/live-chat.png"
-                alt=""
-                width={200}
-                height={200}
-                className="rounded-lg"
+                alt="Live Chat Project"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-500"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent" />
             </div>
-            <Link
-              href="https://live-chat-front-3xn3.onrender.com/auth/login"
-              className="text-cyan-400 hover:underline"
-            >
-              Live Demo →
-            </Link>
-          </div>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-2xl text-white">Live Chat</h3>
+                <span className="text-xs bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full">
+                  In Progress
+                </span>
+              </div>
+              <p className="text-gray-300 mb-4 leading-relaxed">
+                Real-time messaging application that enables instant communication
+                between users. Includes authentication, chat rooms, and live notifications.
+              </p>
+              <div className="mb-4">
+                <p className="text-sm text-gray-400 mb-2 font-medium">
+                  Technologies:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    React
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    Node.js
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    Socket.io
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    MongoDB
+                  </span>
+                </div>
+              </div>
+              <div className="mb-4">
+                <p className="text-sm text-gray-400 mb-2 font-medium">
+                  Features:
+                </p>
+                <ul className="text-sm text-gray-300 space-y-1 list-disc list-inside">
+                  <li>Real-time chat</li>
+                  <li>User authentication</li>
+                  <li>Multiple chat rooms</li>
+                </ul>
+              </div>
+              <Link
+                href="https://live-chat-front-3xn3.onrender.com/auth/login"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
+              >
+                View Demo <ArrowDownRight size={16} />
+              </Link>
+            </div>
+          </motion.div>
 
-          <div className="bg-gray-800 rounded-2xl p-5 hover:-translate-y-1 transition">
-            <h3 className="font-semibold text-xl mb-2 text-white">
-              SmartBudget (in progress)
-            </h3>
-            <p className="text-gray-400 text-sm mb-4">
-              Financial tracking tool built with MERN stack and TypeScript.
-            </p>
-          </div>
-          <div className="bg-gray-800 rounded-2xl p-5 hover:-translate-y-1 transition">
-            <h3 className="font-semibold text-xl mb-2 text-white">
-              Pet Adoption
-            </h3>
-            <p className="text-gray-400 text-sm mb-4">
-              An online platform to connect pet adopters with shelters, built
-              with React, Next.js, and Tailwind CSS.
-            </p>
-            <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="bg-gray-800 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 group"
+          >
+            <div 
+              className="relative h-64 w-full overflow-hidden cursor-pointer"
+              onClick={() => setSelectedImage("/images/petAdoption.png")}
+            >
               <Image
                 src="/images/petAdoption.png"
-                alt=""
-                width={200}
-                height={200}
-                className="rounded-lg"
+                alt="Pet Adoption Project"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-500"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent" />
             </div>
-            <Link
-              href="https://pf-front-26t8.onrender.com/welcome"
-              className="text-cyan-400 hover:underline"
-            >
-              Live Demo →
-            </Link>
-          </div>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-2xl text-white">Pet Adoption</h3>
+              </div>
+              <p className="text-gray-300 mb-4 leading-relaxed">
+                Online platform that connects pet adopters with shelters and
+                organizations. Facilitates the adoption process with detailed
+                profiles, advanced search, and contact system.
+              </p>
+              <div className="mb-4">
+                <p className="text-sm text-gray-400 mb-2 font-medium">
+                  Technologies:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    React
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    Next.js
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    Tailwind CSS
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    TypeScript
+                  </span>
+                </div>
+              </div>
+              <div className="mb-4">
+                <p className="text-sm text-gray-400 mb-2 font-medium">
+                  Features:
+                </p>
+                <ul className="text-sm text-gray-300 space-y-1 list-disc list-inside">
+                  <li>Advanced search and filters</li>
+                  <li>Detailed pet profiles</li>
+                  <li>Integrated contact system</li>
+                </ul>
+              </div>
+              <Link
+                href="https://pf-front-26t8.onrender.com/welcome"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
+              >
+                View Demo <ArrowDownRight size={16} />
+              </Link>
+            </div>
+          </motion.div>
 
-          <div className="bg-gray-800 rounded-2xl p-5 hover:-translate-y-1 transition">
-            <h3 className="font-semibold text-xl mb-2 text-white">
-              League of Legends API
-            </h3>
-            <p className="text-gray-400 text-sm mb-4">
-              This is the first project I built. I remember struggling a lot with the API but that was the moment I realized how much I wanted to be a developer and how much I was willing to learn. It was a great experience and I learned a lot. League of Legends API built with Express, MongoDB, and Node.js.
-            </p>
-            <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="bg-gray-800 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 group"
+          >
+            <div 
+              className="relative h-64 w-full overflow-hidden cursor-pointer"
+              onClick={() => setSelectedImage("/images/apiLol.png")}
+            >
               <Image
                 src="/images/apiLol.png"
-                alt=""
-                width={200}
-                height={200}
-                className="rounded-lg"
+                alt="League of Legends API Project"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-500"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent" />
             </div>
-            <Link
-              href="https://league-of-legends-api-94fw.onrender.com/docs/"
-              className="text-cyan-400 hover:underline"
-            >
-              Live Demo →
-            </Link>
-          </div>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-2xl text-white">
+                  League of Legends API
+                </h3>
+              </div>
+              <p className="text-gray-300 mb-4 leading-relaxed">
+                My first project as a developer. Although it was challenging to
+                work with the official Riot Games API, this experience confirmed
+                my passion for development. Complete REST API with interactive
+                documentation to query League of Legends data.
+              </p>
+              <div className="mb-4">
+                <p className="text-sm text-gray-400 mb-2 font-medium">
+                  Technologies:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    Express
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    MongoDB
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    Node.js
+                  </span>
+                  <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded">
+                    Swagger
+                  </span>
+                </div>
+              </div>
+              <div className="mb-4">
+                <p className="text-sm text-gray-400 mb-2 font-medium">
+                  Features:
+                </p>
+                <ul className="text-sm text-gray-300 space-y-1 list-disc list-inside">
+                  <li>Integration with Riot Games API</li>
+                  <li>Interactive documentation</li>
+                  <li>Endpoints for champions and game data</li>
+                </ul>
+              </div>
+              <Link
+                href="https://league-of-legends-api-94fw.onrender.com/docs/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
+              >
+                View Demo <ArrowDownRight size={16} />
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -314,6 +526,42 @@ export default function Home() {
       <footer className="text-center py-6 text-gray-600 text-sm border-t border-gray-800">
         © {new Date().getFullYear()} Juan Pablo Riascos. All rights reserved.
       </footer>
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+          onClick={() => setSelectedImage(null)}
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            className="relative max-w-7xl max-h-[90vh] w-full h-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute -top-12 right-0 text-white hover:text-cyan-400 transition-colors z-10 bg-gray-800/50 hover:bg-gray-700/50 rounded-full p-2"
+              aria-label="Close modal"
+            >
+              <X size={24} />
+            </button>
+            <div className="relative w-full h-full rounded-lg overflow-hidden">
+              <Image
+                src={selectedImage}
+                alt="Project preview"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
     </main>
   );
 }
