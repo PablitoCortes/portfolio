@@ -92,7 +92,7 @@ export default function Home() {
             transition={{ delay: 0.3 }}
             className="mt-4 text-lg md:text-xl text-gray-300"
           >
-            Frontend Developer · React · Next.js · TypeScript
+            Full-Stack Developer Node.js · React.js · Next.js · TypeScript · MongoDB · Express 
           </motion.p>
 
           <motion.div
@@ -116,7 +116,7 @@ export default function Home() {
               Contact
             </Link>
             <a
-              href="https://drive.google.com/uc?export=download&id=1eg6lQDCKSiD--h5r-CjH8zj-6zIrmUDN"
+              href="https://drive.google.com/file/d/1d5ywKNU4So21ydcYW6QVAdoHMR33EAPa/view?usp=sharing"
               className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-xl font-medium text-gray-200 transition-all"
             >
               <Download size={18} />
